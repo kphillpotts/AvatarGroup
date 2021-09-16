@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="People.MainPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:People.Converters"
+    xmlns:templates="clr-namespace:People.Templates"
+    xmlns:viewmodels="clr-namespace:People.ViewModels"
+    BackgroundColor="White">
+
+    <ContentPage.BindingContext>
+        <viewmodels:PeopleViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:PeopleMultiBind x:Key="peopleMulti" NumberToShow="5" />
+
+            <Style x:Key="avatarFrame" TargetType="Frame">
+                <Setter Property="Margin" Value="-20,0,0,0" />
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="24" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="HeightRequest" Value="48" />
+                <Setter Property="VerticalOptions" Value="Start" />
+                <Setter Property="WidthRequest" Value="48" />
+            </Style>
+
+            <Style x:Key="contentFrame" TargetType="Frame">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="21" />
+                <Setter Property="HasShadow" Value="False" />
+                <Setter Property="HeightRequest" Value="42" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="IsClippedToBounds" Value="True" />
+                <Setter Property="WidthRequest" Value="42" />
+            </Style>
+
+            <DataTemplate x:Key="personTemplate">
+                <Frame Style="{StaticResource avatarFrame}">
+                    <Frame Style="{StaticResource contentFrame}">
+                        <Image Source="{Binding Image}" />
+                    </Frame>
+                </Frame>
+            </DataTemplate>
+
+            <DataTemplate x:Key="counterTemplate">
+                <Frame Style="{StaticResource avatarFrame}">
+                    <Frame BackgroundColor="LightGray" Style="{StaticResource contentFrame}">
+                        <Label
+                            FontSize="16"
+                            HorizontalOptions="Center"
+                            Text="{Binding ., StringFormat='+{0}'}"
+                            TextColor="Black"
+                            VerticalOptions="Center" />
+                    </Frame>
+                </Frame>
+            </DataTemplate>
+
+            <templates:PersonListDataTemplateSelector
+                x:Key="personDataTemplateSelector"
+                CounterTemplate="{StaticResource counterTemplate}"
+                PersonTemplate="{StaticResource personTemplate}" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <StackLayout
+            Padding="20"
+            BindableLayout.ItemTemplateSelector="{StaticResource personDataTemplateSelector}"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Horizontal"
+            VerticalOptions="Center">
+
+            <BindableLayout.ItemsSource>
+                <MultiBinding Converter="{StaticResource peopleMulti}">
+                    <Binding Path="People" />
+                    <Binding Path="People.Count" />
+                </MultiBinding>
+            </BindableLayout.ItemsSource>
+
+            <BindableLayout.EmptyViewTemplate>
+                <DataTemplate>
+                    <Label Text="Nobody" />
+                </DataTemplate>
+            </BindableLayout.EmptyViewTemplate>
+        </StackLayout>
+
+        <!--  bottom add / remove buttons  -->
+        <StackLayout
+            Margin="20"
+            HorizontalOptions="Center"
+            Orientation="Horizontal"
+            VerticalOptions="End">
+            <Button
+                BackgroundColor="LightGreen"
+                BorderColor="Green"
+                BorderWidth="2"
+                Command="{Binding AddUserCommand}"
+                CornerRadius="25"
+                HeightRequest="50"
+                Text="+"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+            <Button
+                BackgroundColor="Pink"
+                BorderColor="Red"
+                BorderWidth="2"
+                Command="{Binding RemoveUserCommand}"
+                CornerRadius="25"
+                HeightRequest="50"
+                Text="-"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+        </StackLayout>
+    </Grid>
+</ContentPage>
