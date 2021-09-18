@@ -16,16 +16,16 @@ namespace People.Converters
         {
             foreach (var value in values)
             {
-                if (value is IEnumerable<Person>)
+                if (value is IEnumerable<Person> enumerable)
                 {
                     // get the first X number of people
                     List<object> returnList = new List<object>();
-                    returnList.AddRange(((IEnumerable<Person>)value).Take(NumberToShow));
+                    returnList.AddRange(enumerable.Take(NumberToShow));
 
                     // if there are even more people - add a counter element
-                    if (((IEnumerable<Person>)value).Count() > NumberToShow)
+                    if (enumerable.Count() > NumberToShow)
                     {
-                        returnList.Add(((IEnumerable<Person>)value).Count() - NumberToShow);
+                        returnList.Add(enumerable.Count() - NumberToShow);
                     }
 
                     return returnList;

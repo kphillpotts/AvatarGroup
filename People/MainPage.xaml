@@ -14,7 +14,6 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <converters:PeopleMultiBind x:Key="peopleMulti" NumberToShow="5" />
 
             <Style x:Key="avatarFrame" TargetType="Frame">
                 <Setter Property="Margin" Value="-20,0,0,0" />
@@ -64,12 +63,24 @@
                 x:Key="personDataTemplateSelector"
                 CounterTemplate="{StaticResource counterTemplate}"
                 PersonTemplate="{StaticResource personTemplate}" />
+
+            <converters:PeopleMultiBind x:Key="peopleMulti" NumberToShow="5" />
+
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <Grid>
+
+        <!--  simplest avatar group  -->
+        <!--<StackLayout
+            BindableLayout.ItemTemplateSelector="{StaticResource personDataTemplateSelector}"
+            BindableLayout.ItemsSource="{Binding PeopleCount}"
+            HorizontalOptions="CenterAndExpand"
+            Orientation="Horizontal"
+            VerticalOptions="Center" />-->
+
+
         <StackLayout
-            Padding="20"
             BindableLayout.ItemTemplateSelector="{StaticResource personDataTemplateSelector}"
             HorizontalOptions="CenterAndExpand"
             Orientation="Horizontal"
@@ -94,17 +105,8 @@
             Margin="20"
             HorizontalOptions="Center"
             Orientation="Horizontal"
-            VerticalOptions="End">
-            <Button
-                BackgroundColor="LightGreen"
-                BorderColor="Green"
-                BorderWidth="2"
-                Command="{Binding AddUserCommand}"
-                CornerRadius="25"
-                HeightRequest="50"
-                Text="+"
-                VerticalOptions="Center"
-                WidthRequest="50" />
+            TranslationY="75"
+            VerticalOptions="Center">
             <Button
                 BackgroundColor="Pink"
                 BorderColor="Red"
@@ -113,6 +115,16 @@
                 CornerRadius="25"
                 HeightRequest="50"
                 Text="-"
+                VerticalOptions="Center"
+                WidthRequest="50" />
+            <Button
+                BackgroundColor="LightGreen"
+                BorderColor="Green"
+                BorderWidth="2"
+                Command="{Binding AddUserCommand}"
+                CornerRadius="25"
+                HeightRequest="50"
+                Text="+"
                 VerticalOptions="Center"
                 WidthRequest="50" />
         </StackLayout>

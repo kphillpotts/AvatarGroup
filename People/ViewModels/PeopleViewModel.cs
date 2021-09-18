@@ -19,6 +19,8 @@ namespace People.ViewModels
 
         public PeopleViewModel()
         {
+            //PeopleCount = new List<object>();
+            
             // setup the commands
             AddUserCommand = new Command(AddPerson);
             RemoveUserCommand = new Command(RemovePerson);
@@ -27,6 +29,7 @@ namespace People.ViewModels
 
         private void CreateSampleData()
         {
+            // create 5 peeps
             for (int i = 0; i < 5; i++)
             {
                 AddPerson();
@@ -35,7 +38,10 @@ namespace People.ViewModels
 
         private void AddPerson()
         {
-            People.Add(new Person { Image = $"https://i.pravatar.cc/100?img={People.Count+1}" });
+            // add a person using an Image from pravatar.cc
+            People.Add(new Person { Image = $"https://i.pravatar.cc/64?img={People.Count + 1}" });
+
+            //OnPropertyChanged(nameof(PeopleCount));
         }
 
         private void RemovePerson()
@@ -43,7 +49,27 @@ namespace People.ViewModels
             if (People.Any())
             {
                 People.Remove(People.Last());
+
+                //OnPropertyChanged(nameof(PeopleCount));
+
             }
         }
+
+        //public List<object> PeopleCount
+        //{
+        //    get
+        //    {
+        //        var numberToShow = 5;
+        //        List<object> returnList = new List<object>();
+
+        //        returnList.AddRange(People.Take(numberToShow));
+
+        //        if (People.Count > numberToShow)
+        //            returnList.Add(People.Count - numberToShow);
+
+        //        return returnList;
+        //    }
+        //    set { }
+        //} 
     }
 }
